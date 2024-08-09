@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Table1 from '../table/Table'
-import EditBlogForm from '../editBlogForm/EditBlogForm';
+import CreateBlogForm from '../createBlogForm/CreateBlogForm';
 import Modal from '../modal/Modal';
 import {
     MenuFoldOutlined,
@@ -79,7 +79,7 @@ const App = () => {
                 >
                     <div className="flex justify-end">
                         <Modal children={true} title={"Create Blog"}>
-                            <EditBlogForm />
+                            <CreateBlogForm />
                         </Modal>
                     </div>
                     <Table1 data={isSuccess ? data?.payload : []} />

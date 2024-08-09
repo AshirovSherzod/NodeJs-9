@@ -4,11 +4,11 @@ import { useCreateBlogsMutation } from '../../context/api/userApi';
 
 const App = () => {
 
-    const [createBlog, {data, error, isLoading,}] = useCreateBlogsMutation()
+    const [createBlog, { data, error, isLoading, }] = useCreateBlogsMutation()
     console.log(data);
     console.log(error);
-    
-    
+
+
 
     const onFinish = (values) => {
         createBlog(values)

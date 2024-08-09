@@ -38,12 +38,6 @@ const App = ({ data: blogsData }) => {
                     <button onClick={() => deleteBlog(record.action)}>Delete</button>
                 </Space>
             )
-            // render: () => (
-            //     <Space size="middle">
-            //         <button>Edit</button>
-            //         <button></button>
-            //     </Space>
-            // ),
         },
     ];
 
@@ -58,13 +52,6 @@ const App = ({ data: blogsData }) => {
 
     )) || []
     console.log(blogsData);
-
-
-    // blogsData.forEach((blog, inx) => {
-    //     let obj = 
-    //     data.push(obj)
-    // })
-
 
     return <div className="">
         <Table className='' columns={columns} dataSource={data} />

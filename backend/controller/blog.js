@@ -76,7 +76,6 @@ class BlogsController {
             })
         }
     }
-
     async update(req, res) {
         try {
             const { id } = req.params
