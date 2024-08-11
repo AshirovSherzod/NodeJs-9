@@ -5,6 +5,7 @@ import Login from "./pages/login/Login"
 import Dashboard from "./pages/dashboard/Dashboard"
 import Auth from "./pages/auth/Auth"
 import ManagaBlogs from "./pages/dashboard/manageBlogs/ManagaBlogs"
+import ManageUsers from "./pages/dashboard/manageUsers/ManageUsers"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Auth />}>
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="manageblog" element={<ManagaBlogs />} />
+            <Route path="manageusers" element={<ManageUsers />} />
           </Route>
         </Route>
       </Routes>

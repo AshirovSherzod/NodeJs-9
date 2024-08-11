@@ -1,13 +1,13 @@
 import React from 'react';
-import { Space, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import Modal from '../modal/Modal';
 import EditBlogForm from '../createBlogForm/CreateBlogForm';
-// import { isAction } from '@reduxjs/toolkit';
-import { useDeleteBlogsMutation } from '../../context/api/blogs';
+import { isAction } from '@reduxjs/toolkit';
+import { useDeleteUsersMutation } from '../../context/api/usersApi';
 
-const App = ({ data: blogsData }) => {
+const TableUsers = ({ data: blogsData }) => {
 
-    const [deleteBlog, { data: deletedData, isLoading }] = useDeleteBlogsMutation()
+    const [deleteBlog, { data: deletedData, isLoading }] = useDeleteUsersMutation()
 
 
     const columns = [
@@ -18,9 +18,9 @@ const App = ({ data: blogsData }) => {
             // render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Title',
-            dataIndex: 'title',
-            key: 'title',
+            title: 'Budget',
+            dataIndex: 'budget',
+            key: 'budget',
         },
         {
             title: 'Description',
@@ -35,19 +35,20 @@ const App = ({ data: blogsData }) => {
                     <Modal title={"Edit"}>
                         <EditBlogForm />
                     </Modal>
-                    <button onClick={() => deleteBlog(record.action)}>Delete</button>
+                    <Button loading={isLoading} onClick={() => deleteBlog(record.action)}>Delete</Button>
+                    {/* <button onClick={() => deleteBlog(record.action)}>Delete</button> */}
                 </Space>
             )
         },
     ];
 
-    const data = blogsData.map((blog, inx) => (
+    const data = blogsData.map((user, inx) => (
         {
             key: `${inx}`,
-            name: `${blog.userId.fname}`,
-            title: `${blog.title}`,
-            desc: `${blog.desc}`,
-            action: [`${blog._id}`]
+            name: `${user.fname} ${user.lname}`,
+            budget: `${user.budget}`,
+            // desc: `${blog.desc}`,
+            action: [`${user._id}`]
         }
 
     )) || []
@@ -56,4 +57,4 @@ const App = ({ data: blogsData }) => {
         <Table className='' columns={columns} dataSource={data} />
     </div>
 }
-export default App;
+export default TableUsers;

@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react';
-import { useSignInMutation } from '../../context/api/userApi'
-import { Button, Checkbox, Form, Input } from 'antd';
-import { useDispatch,  } from 'react-redux';
-import { useNavigate} from 'react-router-dom'
+import { useSignInMutation } from '../../context/api/blogs'
+import { Button, Form, Input, notification } from 'antd';
+// import { Button,  } from 'antd';
+import { useDispatch, } from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 import { setToken, setUser } from '../../context/slices/authSlice';
+// import Notification from '../notfication/Notfication';
+
 
 
 const App = () => {
 
-  const [signIn, { data, isSuccess }] = useSignInMutation()
+  const [signIn, { data, error, isSuccess, isLoading, isError }] = useSignInMutation()
+  const [api, contextHolder] = notification.useNotification();
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -16,29 +21,38 @@ const App = () => {
     if (isSuccess) {
       dispatch(setToken(data.payload.token))
       dispatch(setUser(data.payload.user))
-      navigate("/dashboard")
+      navigate("/dashboard/manageblog")
     }
   }, [isSuccess])
+
+  useEffect(() => {
+    if (isError) {
+      openNotification()
+    }
+  }, [isError])
 
   const handleSubmit = (values) => {
     signIn(values)
   }
 
-
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+  const openNotification = () => {
+    api.open({
+      message: 'Username or password is wrong',
+      description:
+        'Try again',
+      duration: 3,
+    });
   };
 
   return <div className='flex items-center justify-center min-h-screen flex-col gap-4'>
     <Form
       layout='vertical'
-      className='w-96 max-sm:w-full'
+      className='w-[400px] max-sm:w-full border-[1px] p-12 rounded-[5px]'
       name="basic"
       initialValues={{
         remember: true,
       }}
       onFinish={handleSubmit}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <Form.Item
@@ -69,19 +83,9 @@ const App = () => {
         <Input.Password />
       </Form.Item>
 
-      {/* <Form.Item
-      name="remember"
-      valuePropName="checked"
-      wrapperCol={{
-        // offset: 8,
-        span: 16,
-      }}
-    >
-      <Checkbox>Remember me</Checkbox>
-    </Form.Item> */}
-
       <Form.Item>
-        <Button className='w-full' type="primary" htmlType="submit">
+        {contextHolder}
+        <Button loading={isLoading} className='w-full' type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>

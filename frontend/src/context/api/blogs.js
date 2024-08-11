@@ -1,13 +1,13 @@
 import { api } from './index'
 
-export const userApi = api.injectEndpoints({
+export const blogApi = api.injectEndpoints({
   endpoints: (build) => ({
     getBlogs: build.query({
       query: (params) => ({
         url: '/blogs',
         params
       }),
-      providesTags: ["User"]
+      providesTags: ["Blog"]
     }),
     getProfile: build.query({
       query: () => ({
@@ -29,21 +29,21 @@ export const userApi = api.injectEndpoints({
         method: "POST",
         body
       }),
-      invalidatesTags: ["User"]
+      invalidatesTags: ["Blog"]
     }),
     deleteBlogs: build.mutation({
       query: (id) => ({
         url: `/blogs/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["User"]
+      invalidatesTags: ["Blog"]
     }),
     editBlog: build.mutation({
       query: (id) => ({
         url: `/blogs/${id}`,
         method: "PUT",
       }),
-      invalidatesTags: ["User"]
+      invalidatesTags: ["Blog"]
     }),
   }),
 })
@@ -55,4 +55,4 @@ export const {
   useGetProfileQuery,
   useCreateBlogsMutation,
   useEditBlogMutation
-} = userApi
+} = blogApi

@@ -16,7 +16,7 @@ const App = ({ title, children }) => {
             <Button type="primary" onClick={showModal}>
                 {title}
             </Button>
-            <Modal title="Edit Blog" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal footer={false} title="Edit Blog" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 {children}
             </Modal>
         </>

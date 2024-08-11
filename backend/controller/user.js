@@ -21,11 +21,11 @@ class UsersController {
       });
     }
   }
-  async getUserSearch(req, res){
-    try{
-      let {value="", limit=3} = req.query
+  async getUserSearch(req, res) {
+    try {
+      let { value = "", limit = 3 } = req.query
       let text = value.trim()
-      if(!text){
+      if (!text) {
         return res.status(400).json({
           msg: "write something",
           variant: "error",
@@ -38,7 +38,7 @@ class UsersController {
           { username: { $regex: text, $options: "i" } },
         ],
       }).limit(limit)
-      if(!users.length){
+      if (!users.length) {
         return res.status(400).json({
           msg: "user not found",
           variant: "error",
@@ -63,7 +63,7 @@ class UsersController {
     console.log(typeof id);
   }
   async updateProfile() {
-    
+
   }
   async registerUser(req, res) {
     try {
@@ -133,7 +133,7 @@ class UsersController {
     res.status(200).json({
       msg: "Logged in successfully",
       variant: "success",
-      payload: {token, user},
+      payload: { token, user },
     });
   }
   async getAllUsers(req, res) {
@@ -178,6 +178,32 @@ class UsersController {
         variant: "error",
         payload: null,
       });
+    }
+  }
+  async delete(req, res) {
+    try {
+      const { id } = req.params
+      const existBlog = await Users.findById(id)
+      if (!existBlog) {
+        return res.status(400).json({
+          msg: "User is not found",
+          variant: "warning",
+          payload: null
+        })
+      }
+      const users = await Users.findByIdAndDelete(id, { new: true })
+
+      res.status(200).json({
+        msg: "User is deleted",
+        variant: "success",
+        payload: users
+      })
+    } catch {
+      res.status(500).json({
+        msg: "Server error",
+        variant: "error",
+        payload: null
+      })
     }
   }
 }
