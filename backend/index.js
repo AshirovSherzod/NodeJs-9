@@ -17,6 +17,9 @@ monngose
 
 app.use("/", Routes)
 
+app.use(express.urlencoded({ extended: true }))
+app.use("/upload", express.static("./upload"))
+
 const PORT = process.env.PORT || 8000
 
-app.listen(PORT, ()=> console.log(`${PORT} has been listening`))
+app.listen(PORT, () => console.log(`${PORT} has been listening`))

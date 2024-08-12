@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
-import { useCreateBlogsMutation, useEditBlogMutation } from '../../context/api/userApi';
+import { useEditBlogMutation } from '../../context/api/blogs';
 
 const CreateUsersForm = ({ id }) => {
 

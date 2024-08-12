@@ -4,6 +4,7 @@ import UsersController from "../controller/user.js"
 import { auth } from "../middleware/auth.js";
 import { adminMiddleware } from "../middleware/admin-middleware.js";
 import { ownerMiddleware } from "../middleware/owner-middleware.js";
+import { upload } from "../middleware/uploader.js";
 const router = express.Router()
 
 router.get("/api/blogs", [auth], BlogsController.get)
@@ -18,6 +19,12 @@ router.post('/api/users/sign-up', UsersController.registerUser)
 router.post('/api/users/sign-in', UsersController.loginUser)
 router.patch('/api/users/:id', UsersController.updateUser)
 router.delete('/api/users/:id', UsersController.delete)
+
+router.post("/api/product", [upload.array("rasm")], (req, res) => {
+    res.json(req.files.map(i => {
+        return `${req.protocol}://${req.get("host")}/upload/${i.filename}`
+    }))
+})
 
 export default router
 

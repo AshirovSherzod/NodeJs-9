@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import Table1 from '../../components/table/Table'
 import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined, } from '@ant-design/icons';
 import { Button, Layout, Menu, Table, theme } from 'antd';
-import { useGetBlogsQuery } from '../../context/api/blogs';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useGetBlogsQuery, useGetProfileQuery } from '../../context/api/blogs';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useLocale } from 'antd/es/locale';
 
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
 
   const [collapsed, setCollapsed] = useState(false);
+  const { data: profile } = useGetProfileQuery()
+  console.log(profile);
+
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -17,12 +22,12 @@ const App = () => {
 
   const { data, isSuccess } = useGetBlogsQuery()
 
-  const handleChangeMenu = (key = 1) => {
-    if (key === "1") {
+  const handleChangeMenu = (key) => {
+    if (key === "manageblog") {
       navigate("/dashboard/manageblog")
       console.log("ok");
     }
-    if (key === "2") {
+    if (key === "manageusers") {
       navigate("/dashboard/manageusers")
     }
   }
@@ -38,25 +43,30 @@ const App = () => {
           mode="inline"
           autoFocus
           onClick={({ key }) => handleChangeMenu(key)}
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['manageblog']}
+          selectedKeys={pathname.split("/").slice(-1)[0]}
           items={[
             {
-              key: '1',
+              key: 'manageblog',
               icon: <VideoCameraOutlined />,
               label: 'Blogs',
             },
-            {
-              key: '2',
-              icon: <UserOutlined />,
-              label: 'Users',
-            },
-            {
-              key: '3',
-              icon: <UploadOutlined />,
-              label: 'nav 3',
-            },
+            profile?.payload.role === "owner"
+              ?
+              {
+                key: 'manageusers',
+                icon: <UserOutlined />,
+                label: 'Users',
+              }
+              :
+              {}
           ]}
         />
+        <Button onClick={()=> {
+          localStorage.removeItem("x-auth-token")
+          navigate("/login")
+          }}>Log out</Button>
+
       </Sider>
       <Layout>
         <Header
@@ -88,7 +98,6 @@ const App = () => {
           }}
         >
           <Outlet />
-
         </Content>
       </Layout>
     </Layout>
