@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard/Dashboard"
 import Auth from "./pages/auth/Auth"
 import ManagaBlogs from "./pages/dashboard/manageBlogs/ManagaBlogs"
 import ManageUsers from "./pages/dashboard/manageUsers/ManageUsers"
+import ManageProducts from "./pages/dashboard/manageProducts/ManageProducts"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="dashboard" element={<Dashboard />}>
             <Route path="manageblog" element={<ManagaBlogs />} />
             <Route path="manageusers" element={<ManageUsers />} />
+            <Route path="manageproducts" element={<ManageProducts />} />
           </Route>
         </Route>
       </Routes>

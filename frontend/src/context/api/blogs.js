@@ -21,7 +21,7 @@ export const blogApi = api.injectEndpoints({
         method: "POST",
         body
       }),
-      invalidatesTags: ["User"]
+      invalidatesTags: ["User", "Profile"]
     }),
     createBlogs: build.mutation({
       query: (body) => ({

@@ -4,7 +4,6 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, Vid
 import { Button, Layout, Menu, Table, theme } from 'antd';
 import { useGetBlogsQuery, useGetProfileQuery } from '../../context/api/blogs';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useLocale } from 'antd/es/locale';
 
 const { Header, Sider, Content } = Layout;
 
@@ -29,6 +28,9 @@ const App = () => {
     }
     if (key === "manageusers") {
       navigate("/dashboard/manageusers")
+    }
+    if (key === "manageproducts") {
+      navigate("/dashboard/manageproducts")
     }
   }
 
@@ -59,13 +61,18 @@ const App = () => {
                 label: 'Users',
               }
               :
-              {}
+              {},
+            {
+              key: 'manageproducts',
+              icon: <VideoCameraOutlined />,
+              label: 'Products',
+            }
           ]}
         />
-        <Button onClick={()=> {
+        <Button onClick={() => {
           localStorage.removeItem("x-auth-token")
           navigate("/login")
-          }}>Log out</Button>
+        }}>Log out</Button>
 
       </Sider>
       <Layout>
@@ -88,7 +95,7 @@ const App = () => {
           />
         </Header>
         <Content
-          className='flex flex-col gap-3'
+          className='flex flex-col gap-3 overflow-auto'
           style={{
             margin: '24px 16px',
             padding: 24,
